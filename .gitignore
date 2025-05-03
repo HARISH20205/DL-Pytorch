@@ -2,6 +2,6 @@
 .vs
 MNIST
 data
-__pycahe__
+__pycache__
 fashion
 mini_food
