@@ -33,7 +33,7 @@ def train_step(model, optimizer, loss_fn, train_dataloader, device):
 
     train_loss /= len(train_dataloader)
     train_acc /= len(train_dataloader)
-    print(f" Train Loss: {train_loss:.4f} || Train Accuracy {train_acc:.2f}%")
+    # print(f" Train Loss: {train_loss:.4f} || Train Accuracy {train_acc:.2f}%")
     return train_loss, train_acc
 
 
@@ -55,7 +55,7 @@ def test_step(model, loss_fn, test_dataloader, device):
 
         test_acc /= len(test_dataloader)
 
-    print(f" Test Loss: {test_acc:.4f} || Test Accuracy {test_acc:.2f}%\n")
+    # print(f" Test Loss: {test_acc:.4f} || Test Accuracy {test_acc:.2f}%\n")
 
     return test_loss, test_acc
 
