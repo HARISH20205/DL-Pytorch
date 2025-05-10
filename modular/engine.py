@@ -1,8 +1,10 @@
 import torch
 from tqdm.auto import tqdm
 from utils import accuracy_fn
-from timeit import default_timer as timer
 
+# from torch.utils.tensorboard import SummaryWriter
+
+# writer = SummaryWriter()
 
 torch.manual_seed(42)
 
@@ -60,7 +62,9 @@ def test_step(model, loss_fn, test_dataloader, device):
     return test_loss, test_acc
 
 
-def train(model, optimizer, loss_fn, train_dataloader, test_dataloader, epochs, device):
+def train(
+    model, optimizer, loss_fn, train_dataloader, test_dataloader, epochs, device, writer
+):
     results = {"train_loss": [], "train_acc": [], "test_loss": [], "test_acc": []}
 
     model.to(device)
@@ -90,5 +94,24 @@ def train(model, optimizer, loss_fn, train_dataloader, test_dataloader, epochs, 
         results["test_acc"].append(
             test_acc.item() if isinstance(test_acc, torch.Tensor) else test_acc
         )
+        if writer:
+            writer.add_scalars(
+                main_tag="Loss",
+                tag_scalar_dict={"train_loss": train_loss, "test_loss": test_loss},
+                global_step=epoch,
+            )
+            writer.add_scalars(
+                main_tag="Accuracy",
+                tag_scalar_dict={"train_acc": train_acc, "test_acc": test_acc},
+                global_step=epoch,
+            )
 
+            writer.add_graph(
+                model=model,
+                input_to_model=torch.randn(1, 3, 384, 384).to(device=device),
+            )
+        else:
+            pass
+    if writer:
+        writer.close
     return results
