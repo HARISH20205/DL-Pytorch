@@ -312,4 +312,5 @@ def main():
     cleanup_ddp()
 
 if __name__ == "__main__":
+    print("Starting main...")
     main()
